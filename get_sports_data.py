@@ -1,23 +1,11 @@
 #!/usr/bin/python3
  
-'''
-Doctoring tbd
-'''
 
 import sys
-if not sys.version_info >= (3, 5):
-	major_version = sys.version_info.major
-	minor_version = sys.version_info.minor
-	micro_version = sys.version_info.micro
-	print(f"you are using python {major_version}.{minor_version}.{micro_version} and minimum 3.5 is required")
-	
-import aiohttp
-import asyncio
 import requests
-from  datetime import datetime
 import argparse
-
 import json
+from  datetime import datetime
 
 API_URL = "https://restest.free.beeceptor.com/results"
 
@@ -31,28 +19,31 @@ def check_python_version():
         sys.exit(f"Error: You are using Python {major_version}.{minor_version}.{micro_version}. "
                  f"Minimum version required is 3.5.")
 
-def fetch_results(locale:str) -> dict:
+def fetch_results(url:str = API_URL, locale:str = None) -> dict:
 	"""Fetch results from the API with the specified locale."""
-
 	headers = {
-        	"Accept-Language": locale,
-        	"Content-Type": "application/json"
+		"Content-Type": "application/json"
     	}
+
+	if locale:
+		headers["Accept-Language"] = locale
+       	
 	
 	results = {}
 	try:
-		response = requests.post(API_URL, headers=headers)
+		response = requests.post(url, headers=headers)
 		if response.status_code == 200:
 			results = response.json()
 		else:
-			print(f"Api call returned unexpected status: {response.status_code}")
-	except requests.exceptions.RequestException as e:
-        	raise(f"Error fetching results: {e}")
+			raise ValueError(f"Api call returned unexpected status: {response.status_code}")
+	except Exception as e:
+        	raise Exception(f"Error fetching API results: {e}")
 	
 	return results
 
 def filter_and_sort_results(results: dict, event_types: list[str] = None) -> dict:
 	"""Filter and sort the sport events data."""
+
 	if not results:
 		raise ValueError(f"unexpected empty input parameter results")
 
@@ -68,7 +59,7 @@ def filter_and_sort_results(results: dict, event_types: list[str] = None) -> dic
 	return filtered_results
 
 def main(event_types: list[str] = None, locale: str = None): 
-	results = fetch_results(locale)
+	results = fetch_results(locale=locale)
         
 	sorted_filtered_results = filter_and_sort_results(results, event_types)
 
@@ -83,6 +74,8 @@ def main(event_types: list[str] = None, locale: str = None):
 	
 
 if __name__ == "__main__":
+	check_python_version()
+
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-e", "--events", nargs="?", help="comma separated string of event types")
 	parser.add_argument("-l", "--locale", nargs="?", help="request locale e.g. en, fr, de, etc.")
@@ -96,5 +89,4 @@ if __name__ == "__main__":
 	locale = args.locale if args.locale else "en"
 		
 
-	
 	main(event_types, locale)

@@ -12,7 +12,23 @@ Tasks:
 
 
 # Solution
-WIP
+	The get_sports_data.py script fetches data from the https://restest.free.beeceptor.com/results API and prints the output in json format in reverse chronological order
+	
+	usage: get_sports_data.py [-h] [-e [EVENTS]] [-l [LOCALE]]
+
+	optional arguments:
+  	-h, --help            show this help message and exit
+  	-e [EVENTS], --events [EVENTS]
+                        	comma separated string of event types e.g. 'Tennis'
+  	-l [LOCALE], --locale [LOCALE]
+                        	request locale e.g. en, fr, de, etc.
+
+	Running the code:
+	Download the code, navigate to the parent directory and run one of the following:
+		python3 get_sports_data/py
+		OR
+		./get_sports_data.py
 
 # Run the tests
-WIP
+	A number of test cases are provided in the run_tests.py file. To run the tests navigate to the parent directory where the code was downloaded and run :
+	python3 -m unittest run_tests.py
