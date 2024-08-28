@@ -52,9 +52,9 @@ def filter_and_sort_results(results: dict, event_types: list[str] = None) -> dic
 	if event_types:
 		filtered_results = {key: value for key, value in filtered_results.items() if key in event_types}
 		
-	if filtered_results:
-		for k, v in filtered_results.items():
-			filtered_results[k] = sorted(v, key=lambda x: datetime.strptime(x['publicationDate'], '%b %d, %Y %I:%M:%S %p'), reverse=True)
+	
+	for k, v in filtered_results.items():
+		filtered_results[k] = sorted(v, key=lambda x: datetime.strptime(x['publicationDate'], '%b %d, %Y %I:%M:%S %p'), reverse=True)
 
 	return filtered_results
 
