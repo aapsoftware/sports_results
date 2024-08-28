@@ -29,6 +29,14 @@ Tasks:
 		OR
 		./get_sports_data.py
 
+	To run the async version of the code follow the steps below:
+		Download the code and navigate to the parent directory
+		install the python modules aiohttp and asyncio:
+			pip3 install aiohttp, asyncio
+		run the code:
+			./get_sports_data_async.py
+	
+
 # Run the tests
 	A number of test cases are provided in the run_tests.py file. To run the tests navigate to the parent directory where the code was downloaded and run :
 	python3 -m unittest run_tests.py
