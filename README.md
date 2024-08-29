@@ -38,5 +38,8 @@ Tasks:
 	
 
 # Run the tests
-	A number of test cases are provided in the run_tests.py file. To run the tests navigate to the parent directory where the code was downloaded and run :
-	python3 -m unittest run_tests.py
+	There are a number of test cases provided which exercise the code
+	Unit tests can be run by running the following command:  
+		python3 -m unittest run_tests.py
+	Integration tests which exersize the sync and async version of the script can be run by running the following command:
+		python3 -m unittest run_integration_tests.py

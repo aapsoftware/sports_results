@@ -97,7 +97,7 @@ class TestFetchResults(unittest.TestCase):
 				datetime.strptime(sorted_results["Tennis"][i]['publicationDate'], '%b %d, %Y %I:%M:%S %p'),
 				datetime.strptime(sorted_results["Tennis"][i+1]['publicationDate'], '%b %d, %Y %I:%M:%S %p')
 			)
-		for i in  range(len(data["f1Results"])-1):
+		for i in range(len(data["f1Results"])-1):
 			self.assertGreater(
 				datetime.strptime(sorted_results["Tennis"][i]['publicationDate'], '%b %d, %Y %I:%M:%S %p'),
 				datetime.strptime(sorted_results["Tennis"][i+1]['publicationDate'], '%b %d, %Y %I:%M:%S %p')
