@@ -21,27 +21,26 @@ def check_python_version():
                  f"Minimum version required is 3.5.")
 
 async def fetch_results(url:str = API_URL, locale:str = None) -> dict:
-	"""Fetch results from the API with the specified locale."""
-	headers = {
-		"Content-Type": "application/json"
-    	}
+    """Fetch results from the API with the specified locale."""
+    headers = {
+        "Content-Type": "application/json"
+    }
 
-	if locale:
-		headers["Accept-Language"] = locale
+    if locale:
+        headers["Accept-Language"] = locale
        	
+        results = {}
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(url, headers=headers) as response:
+                response.raise_for_status() #Raise exception for http errors
+                results = await response.json()
+        except aiohttp.ClientError as e:
+            raise Exception(f"Error fetching results from {url}: {e}")
+        except asyncio.TimeoutError:
+            raise Exception(f"API request to {url} timed out")
 	
-	results = {}
-	async with aiohttp.ClientSession() as session:
-		try:
-			async with session.post(url, headers=headers) as response:
-				if response.status == 200:
-					results = await response.json()
-				else:
-					raise ValueError(f"Api call returned unexpected status: {response.status_code}")
-		except Exception as e:
-        		raise Exception(f"Error fetching API results: {e}")
-	
-	return results
+    return results
 
 def filter_and_sort_results(results: dict, event_types: list[str] = None) -> dict:
 	"""Filter and sort the sport events data."""
